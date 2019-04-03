@@ -21,3 +21,8 @@ p [-1 , 0, 1, 2, *a]
 
 ## 4.7.9 ==で等しい配列かどうか判断する
 p [1, 2, 3] == [1, 2, 3]
+
+## 4.7.10 %記法で文字列の配列を簡潔に作る
+p %w(apple melon orrange) 
+p %w!apple melon orrange! # 文字列を``で囲む必要がない
+p %w(big\ apple small\ melon orrange)

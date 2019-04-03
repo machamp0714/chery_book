@@ -26,3 +26,8 @@ p [1, 2, 3] == [1, 2, 3]
 p %w(apple melon orrange) 
 p %w!apple melon orrange! # 文字列を``で囲む必要がない
 p %w(big\ apple small\ melon orrange)
+
+## 4.7.11 文字列を配列に変換する
+p 'Ruby'.chars # 文字列中の１文字１文字を配列に分解する
+
+p 'Ruby,Java,PHP,Python'.split(',')

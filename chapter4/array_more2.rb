@@ -31,3 +31,11 @@ p %w(big\ apple small\ melon orrange)
 p 'Ruby'.chars # 文字列中の１文字１文字を配列に分解する
 
 p 'Ruby,Java,PHP,Python'.split(',')
+
+## 4.7.12 配列を初期値を設定する
+a = Array.new(5) # 要素が５個の配列を作成
+p a
+a = Array.new(5, 0)
+p a
+a = Array.new(10) { |n| n % 3 + 1 }
+p a

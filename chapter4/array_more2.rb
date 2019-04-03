@@ -39,3 +39,13 @@ a = Array.new(5, 0)
 p a
 a = Array.new(10) { |n| n % 3 + 1 }
 p a
+
+## 4.7.13 配列に初期値を設定する場合の注意点
+a = Array.new(5, 'default')
+str = a[0]
+str.upcase! # 配列の要素全てが置き換わる。破壊的
+p a
+b = Array.new(5) { 'default' }
+str2 = b[0]
+str2.upcase!
+p b

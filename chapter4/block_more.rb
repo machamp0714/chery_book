@@ -52,8 +52,16 @@ end
 p sum
 
 ## 4.8.6 繰り返し処理以外でも使用されるブロック
-File.open("./sample.txt", "w") do |file|
+File.open("./sample.txt", "w") do |file| # File.openメソッドとブロックを組み合わせると、クローズする処理まで見てくれる
     file.puts('一行目のテキストです。')
     file.puts('二行目のテキストです。')
     file.puts('三行目のテキストです。')
 end
+
+## 4.8.7 do...endと{}の結合度の違い
+a = [1, 2, 3]
+p a.delete(100)
+a.delete(100) do
+    p 'NG'
+end
+p a.delete(100) {'NG'}

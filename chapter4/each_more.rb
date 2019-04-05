@@ -41,3 +41,11 @@ until a.size <= 3
     a.delete_at(-1)
 end
 p a
+
+## for文
+numbers = [1, 2, 3, 4]
+total = 0
+for n in numbers
+    total += n
+end 
+p total

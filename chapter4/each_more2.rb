@@ -60,3 +60,15 @@ numbers_a.each do |n|
     next if n.even? # 偶数であれば処理を中断して次の繰り返し処理に進む
     puts n
 end
+
+## 4.10.5 redo
+foods = %w(ピーマン トマト セロリ)
+count = 0
+foods.each do |food|
+    print "#{food}は好きですか？ =>"
+    answer = %w(yes no).sample
+    puts answer
+    count += 1
+    redo if answer != 'yes' && count < 2 # その回の繰り返し処理の最初に戻る
+    count = 0
+end

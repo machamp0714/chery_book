@@ -17,3 +17,27 @@ p d
 a = []
 1.step(10, 2) { |n| a << n } # nからmまでxずつ増やしながら処理を行いたいときはNumericクラスのstepメソッド
 p a
+
+d = []
+10.step(1, -2) { |n| d << n }
+p d
+
+# 4.9.4 while文とuntil文
+a = []
+while a.size < 5
+    a << 1
+end
+b = []
+b << 1 while b.size < 5 
+p b
+
+begin            # どんな条件でも最低1回は実行したい場合はbegin...end
+    a << 1
+end while false
+p a
+
+a = [100, 80, 60, 40, 20]
+until a.size <= 3
+    a.delete_at(-1)
+end
+p a

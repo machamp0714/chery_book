@@ -53,3 +53,10 @@ def calc_with_break
     target * 10
 end
 p calc_with_break # returnの役割はあくまでメソッドの脱出である
+
+## 4.10.4 next
+numbers_a = [1, 2, 3, 4, 5]
+numbers_a.each do |n|
+    next if n.even? # 偶数であれば処理を中断して次の繰り返し処理に進む
+    puts n
+end

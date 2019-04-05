@@ -12,3 +12,8 @@ p a
 d = []
 14.downto(10) { |n| d << n }
 p d
+
+## 4.9.3 stepメソッド
+a = []
+1.step(10, 2) { |n| a << n } # nからmまでxずつ増やしながら処理を行いたいときはNumericクラスのstepメソッド
+p a

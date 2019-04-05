@@ -29,3 +29,15 @@ fruits.each do |fruit|
         break if n == 3
     end
 end
+
+## 4.10.2 throwとcatchを使った大域脱出
+catch :done do # タグには通常シンボルを使う
+    fruits.shuffle.each do |fruit|
+        numbers.shuffle.each do |n|
+            puts "#{fruit}, #{n}"
+            if fruit == 'orange' && n == 3
+                throw :done
+            end
+        end
+    end
+end

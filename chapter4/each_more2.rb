@@ -41,3 +41,15 @@ catch :done do # タグには通常シンボルを使う
         end
     end
 end
+
+## 4.10.3 繰り返し処理で使うbreakとreturnの違い
+def calc_with_break
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    target = nil
+    numbers.shuffle.each do |n|
+        target = n
+        return if n.even? # breakをreturnにすると引数を指定していないので、nilが戻り値となる 
+    end
+    target * 10
+end
+p calc_with_break # returnの役割はあくまでメソッドの脱出である

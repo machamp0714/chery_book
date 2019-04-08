@@ -21,3 +21,9 @@ buy_burger('cheese_burger', drink: true, potato: true)
 buy_burger('cheese_burger', drink: true)
 buy_burger('cheese_burger', potato: true)
 buy_burger('cheese_burger', drink: true, potato: true, salada: true) # 擬似キーワード引数は単なるハッシュであるため、どんなキーを渡してもエラーにならない
+
+## 5.6.4 任意のキーワードを受け付ける**引数
+def buy_item(game, book, **others)
+    p others
+end
+buy_item('pcゲーム', '技術書', frypan: 'アルミパン', iphone: 'iphoneXR')

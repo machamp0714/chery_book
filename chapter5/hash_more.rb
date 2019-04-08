@@ -38,3 +38,16 @@ p currencies.to_a
 array = [[:japan, 'yen'], [:us, 'dollar'], [:india, 'rupee']] # ハッシュとして解析不能な配列に対してto_hメソッドを呼ぶと、エラーになる
 p array.to_h
 p Hash[array]
+
+## 5.6.8 ハッシュの初期値を理解する
+h = Hash.new("hello")
+a = h[:foo]
+b = h[:foo]
+a.upcase!
+p b
+
+h2 = Hash.new { 'hello' }
+c = h2[:hoge]
+d = h2[:hoge]
+c.upcase!
+p d

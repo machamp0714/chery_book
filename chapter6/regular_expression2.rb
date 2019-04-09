@@ -35,8 +35,8 @@ html = <<HTML
 <select name="game_console">
 <option value="none"></option>
 <option value="wii_u" selected>Wii U</option>
-<option value="ps4">プレステ4</option>
-<option value="gb">ゲームボーイ</option>
+<option value="ps4">プレステ4</option><option value="gb">ゲームボーイ</option>
 </select>
 HTML
-p html.scan(/option value="([a-z0-9_]+)"(?: selected)?>(.*)<\/option/)
+p html.scan(/option value="([a-z0-9_]+)"(?: selected)?>(.*)<\/option/) # ?は文字列にも適用できる。その場合()で囲む必要がある。これをクエリ化と言う。
+p html.split(/\n/).grep(/option value="(\w+)"(?: selected)?>(.*?)<\/option>/) # \wは[a-z\d_]と同じ

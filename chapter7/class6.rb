@@ -10,6 +10,7 @@ class Foo
 
   def baz
     puts "#{self}"
+    Foo.bar
   end
 end
 Foo.bar

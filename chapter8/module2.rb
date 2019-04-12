@@ -8,6 +8,8 @@ end
 class Product
   extend Loggable # extendを使うと、モジュール内のメソッドをそのクラスの特異メソッドにする事が出来る。
 
+  log 'Defined Product class' # クラス構文直下でextendしたクラスメソッドを使う事が出来る
+
   def self.create_products(names)
     log 'create_products is called.'
   end

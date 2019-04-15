@@ -52,5 +52,12 @@ User.create(name: 'oide', age: 12)
 # pp User.select("id, name, age").where("age >= 30 or age < 20")
 
 ## NOT
-pp User.select("id, name, age").where.not(id: 3)
+# pp User.select("id, name, age").where.not(id: 3)
 
+## プレースホルダー 条件文字列に値を埋め込むときは必ずプレースホルダーを使う
+min = 20
+max = 30
+# pp User.select("id, name, age").where("age >= #{min} and age < #{max}") # NG!!! 悪意のあるコードが紛れ込む可能性があるから！
+# pp User.select("id, name, age").where("age >= ? and age < ?", min, max)
+# pp User.select("id, name, age").where("age >= :min and age < :max", { min: min, max: max }) # ハッシュを使うこともできる
+pp User.select("id, name, age").where("name like ?", "%e")

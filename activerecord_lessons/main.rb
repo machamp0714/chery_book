@@ -10,6 +10,19 @@ ActiveRecord::Base.establish_connection(
 )
 
 class User < ActiveRecord::Base
+  # class method
+  # def self.top3
+  #   select("id, name, age").order(:age).limit(3)
+  # end
+
+  # scope
+  # scope :top3, -> { select("id, name, age").order(:age).limit(3) }
+
+  def self.top(num)
+    select("id, name, age").order(:age).limit(num)
+  end
+
+  scope :top, -> (num) { select("id, name, age").order(:age).limit(num) } # scopeを使うと、チェーンメソッドでこの後にメソッドをつなぐことが出来る。
 
 end
 
@@ -60,4 +73,38 @@ max = 30
 # pp User.select("id, name, age").where("age >= #{min} and age < #{max}") # NG!!! 悪意のあるコードが紛れ込む可能性があるから！
 # pp User.select("id, name, age").where("age >= ? and age < ?", min, max)
 # pp User.select("id, name, age").where("age >= :min and age < :max", { min: min, max: max }) # ハッシュを使うこともできる
-pp User.select("id, name, age").where("name like ?", "%e")
+# pp User.select("id, name, age").where("name like ?", "%e")
+
+
+## order
+# pp User.select("id, name, age").order("age")
+# pp User.select("id, name, age").order(age: :desc)
+
+## limit
+# pp User.select("id, name, age").order(:age).limit(3) # 件数を制限する
+# pp User.select("id, name, age").order(:age).offset(1) # 最初のn件を省いて取得する
+
+# 抽出条件を登録しよう
+# pp User.top3
+
+## find_or_create_by
+# user = User.find_or_create_by(name: 'hayashi')
+# user = User.find_or_create_by(name: 'uzumaki') do |u|
+#   u.age = 18
+# end
+# pp user
+
+## update
+# User.update(1, age: 50)
+# User.where(name: 'ishikawa').update(age: 24)
+# User.where(name: 'hoshi').update(age: 30, name: 'suwa')
+# User.where(" age >= 30 ").update(age: 80)
+# User.where("age >= 20").update_all("age = age + 2")
+# pp User.select("id, name, age").all
+
+## delete: 単機能だけど高速
+## destroy: 高機能だけど低速
+
+# User.delete(1)
+# User.where("age >= 20").delete_all
+# pp User.select("id, name, age").all

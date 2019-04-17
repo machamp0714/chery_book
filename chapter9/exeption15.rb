@@ -3,7 +3,7 @@
 class NoCountryError < StandardError
   attr_reader :country
 
-  def initialize(country)
+  def initialize(message, country)
     @country = country
     super("#{message} #{country}")
   end

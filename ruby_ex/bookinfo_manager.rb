@@ -30,14 +30,14 @@ class BookInfoManager
     print "著者名: "
     author = gets.chomp
     print "学習年: "
-    studay_year = gets.chomp.to_i
+    study_year = gets.chomp.to_i
     print "学習月: "
     study_month = gets.chomp.to_i
     print "学習日: "
     studay_date = gets.chomp.to_i
     print "カテゴリー: "
     category = gets.chomp
-    book_info = BookInfo.new(title, author, Date.new(studay_year, study_month, studay_date), category)
+    book_info = BookInfo.new(title, author, Date.new(study_year, study_month, study_date), category)
     @book_infos[key] = book_info 
   end
 
@@ -50,12 +50,41 @@ class BookInfoManager
     end
   end
 
+  def search_book
+    results = []
+    puts "書籍を検索します。"
+    puts "キーワードを入力してください:"
+    keyword = gets.chomp
+    @book_infos.each_value do |book|
+      if book.title.include?(keyword)
+        results << book
+      elsif book.author.include?(keyword)
+        results << book
+      elsif book.category.include?(keyword)
+        results << book
+      end
+    end
+    if results.size > 0
+      search_result(results)
+    else
+      puts "検索条件に一致する結果は見つかりませんでした。"
+    end
+  end
+
+  def search_result(results)
+    puts "検索結果"
+    results.each do |book|
+      puts book.toFormattedString
+    end
+  end
+
   def run
     while true
       puts "1: 書籍データ登録"
       puts "2: 書籍データ表示"
+      puts "3: 書籍データを検索する"
       puts "9: 終了"
-      print "番号を選んでください(1,2,9):"
+      print "番号を選んでください(1,2,3,9):"
 
       num = gets.chomp.to_i
       case 
@@ -63,6 +92,8 @@ class BookInfoManager
         add_book_info
       when num == 2
         list_all_books
+      when num == 3
+        search_book
       when num == 9
         break;
       else

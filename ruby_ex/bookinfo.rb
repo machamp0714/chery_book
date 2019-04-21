@@ -18,11 +18,21 @@ class BookInfo
   end
 end
 
-book_info = BookInfo.new(
-  "創りながら学ぶRuby",
+book1  = BookInfo.new(
+  "作りながら学ぶRuby",
   "久保秋真",
   Date.new(2019, 4, 21),
   "Ruby"
 )
-puts book_info.toFormattedString
-puts book_info.toFormattedString("/")
+book2 = BookInfo.new(
+  "Webを支える技術",
+  "山本陽平",
+  Date.new(2019, 4, 8),
+  "ネットワーク"
+)
+book_infos = { book1: book1, book2: book2 }
+
+book_infos.each do |key, value|
+  puts "#{key}:\n\n#{value.toFormattedString}"
+  puts "-----------------------------------"
+end

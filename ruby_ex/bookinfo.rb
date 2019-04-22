@@ -1,4 +1,5 @@
 require 'date'
+require 'PStore'
 class BookInfo
   def initialize(title, author, study_day, category)
     @title = title
@@ -14,9 +15,9 @@ class BookInfo
   end
 
   # CSV形式に変換する
-  def to_csv(key)
-    "#{key}, #{@title}, #{@author}, #{@study_day}, #{@category}\n"
-  end
+  # def to_csv(key)
+  #   "#{key}, #{@title}, #{@author}, #{@study_day}, #{@category}\n"
+  # end
 
   def toFormattedString(sep = "\n")
     "書籍名: #{@title}#{sep}著者名: #{@author}#{sep}学習日: #{@study_day}#{sep}カテゴリー: #{@category}"
@@ -24,20 +25,19 @@ class BookInfo
 end
 
 class BookInfoManager
-  def initialize(filename)
-    @csv_fname = filename
-    @book_infos = {}
+  def initialize(dbname)
+    @db = PStore.new(dbname)
   end
 
   # 蔵書データをセットアップする
-  def setup
-    File.open(@csv_fname, 'r:UTF-8') do |file|
-      file.each do |line|
-        key, title, author, study_day, category = line.chomp.split(',')
-        @book_infos[key.to_sym] = BookInfo.new(title, author, DateTime.parse(study_day), category)
-      end
-    end
-  end
+  # def setup
+  #   File.open(@csv_fname, 'r:UTF-8') do |file|
+  #     file.each do |line|
+  #       key, title, author, study_day, category = line.chomp.split(',') # chompメソッドって何？
+  #       @book_infos[key.to_sym] = BookInfo.new(title, author, DateTime.parse(study_day), category)
+  #     end
+  #   end
+  # end
 
   def add_book_info
     puts "書籍を登録します。情報を入力してください。"
@@ -56,15 +56,19 @@ class BookInfoManager
     print "カテゴリー: "
     category = gets.chomp
     book_info = BookInfo.new(title, author, Date.new(study_year, study_month, study_date), category)
-    @book_infos[key] = book_info 
+    @db.transaction do
+      @db[key] = book_info
+    end
   end
 
   def list_all_books
     puts "書籍一覧"
-    @book_infos.each do |key, value|
-      puts key
-      puts value.toFormattedString
-      puts "--------------------------"
+    @db.transaction(true) do
+      @db.roots.each do |key|
+        puts "#{key}: "
+        puts @db[key].toFormattedString
+        puts "-----------------------------------"
+      end
     end
   end
 
@@ -96,24 +100,41 @@ class BookInfoManager
     end
   end
 
-  # メモリ上のハッシュをCSVファイルに書き込む
-  def save_all_book_infos
-    File.open(@csv_fname, 'w:UTF-8') do |file|
-      @book_infos.each do |key, book|
-        file.print book.to_csv(key)
+  def delete_book_info
+    puts 'キーを指定してください。'
+    key = gets.chomp.to_sym
+    @db.transaction do
+      if @db.root?(key)
+        puts @db[key].toFormattedString
+        puts '本当に削除しますか？(Y/yを入力すると削除されます): '
+        yesno = gets.chomp.upcase
+        if /^Y$/ =~ yesno
+          @db.delete(key)
+          puts '削除しました。'
+        end
       end
     end
-    puts "ファイルへ保存しました。"
   end
+
+  # メモリ上のハッシュをCSVファイルに書き込む
+  # def save_all_book_infos
+  #   File.open(@csv_fname, 'w:UTF-8') do |file|
+  #     @book_infos.each do |key, book|
+  #       file.print book.to_csv(key)
+  #     end
+  #   end
+  #   puts "ファイルへ保存しました。"
+  # end
 
   def run
     while true
       puts "1: 書籍データ登録"
       puts "2: 書籍データ表示"
       puts "3: 書籍データを検索する"
-      puts "4: 書籍データを保存する"
+      # puts "4: 書籍データを保存する"
+      puts "8: データを削除する"
       puts "9: 終了"
-      print "番号を選んでください(1,2,3,4,9):"
+      print "番号を選んでください(1,2,3,8,9):"
 
       num = gets.chomp.to_i
       case 
@@ -123,8 +144,10 @@ class BookInfoManager
         list_all_books
       when num == 3
         search_book
-      when num == 4
-        save_all_book_infos
+      # when num == 4
+      #   save_all_book_infos
+      when num == 8
+        delete_book_info
       when num == 9
         break;
       else
@@ -134,6 +157,6 @@ class BookInfoManager
   end
 end
 
-book_info_manager = BookInfoManager.new("sample.txt")
-book_info_manager.setup
+book_info_manager = BookInfoManager.new('sampleDB')
+
 book_info_manager.run

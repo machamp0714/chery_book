@@ -107,7 +107,8 @@ class BookInfoManager
   # メモリ上のハッシュをCSVファイルに書き込む
   def save_all_book_infos
     File.open(@csv_fname, 'w:UTF-8') do |file|
-      @book_infos.each_value do |book|
+      @book_infos.each do |key, book|
+        file.print(key.to_s + ', ')
         file.print book.to_csv
       end
     end

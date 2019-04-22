@@ -14,8 +14,8 @@ class BookInfo
   end
 
   # CSV形式に変換する
-  def to_csv
-    "#{@title}, #{@author}, #{@study_day}, #{@category}\n"
+  def to_csv(key)
+    "#{key}, #{@title}, #{@author}, #{@study_day}, #{@category}\n"
   end
 
   def toFormattedString(sep = "\n")
@@ -100,8 +100,7 @@ class BookInfoManager
   def save_all_book_infos
     File.open(@csv_fname, 'w:UTF-8') do |file|
       @book_infos.each do |key, book|
-        file.print(key.to_s + ', ')
-        file.print book.to_csv
+        file.print book.to_csv(key)
       end
     end
     puts "ファイルへ保存しました。"
@@ -114,7 +113,7 @@ class BookInfoManager
       puts "3: 書籍データを検索する"
       puts "4: 書籍データを保存する"
       puts "9: 終了"
-      print "番号を選んでください(1,2,3,9):"
+      print "番号を選んでください(1,2,3,4,9):"
 
       num = gets.chomp.to_i
       case 

@@ -1,6 +1,2 @@
-Twinkle, twinkle, little star,
-How I wonder what you are.
-Up above the world so high,
-Like a diamond in the sky.
-Twinkle, twinkle, little star,
-How I wonder what you are.
+作りながら学ぶRuby, 久保秋真, , Ruby
+Webを支える技術, 山本陽平, , ネットワーク

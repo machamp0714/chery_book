@@ -13,16 +13,23 @@ class BookInfo
     "#{title}, #{author}, #@study_day, #@category"
   end
 
+  # CSV形式に変換する
+  def to_csv
+    "#{@title}, #{@author}, #{@study_day}, #{@category}\n"
+  end
+
   def toFormattedString(sep = "\n")
     "書籍名: #{@title}#{sep}著者名: #{@author}#{sep}学習日: #{@study_day}#{sep}カテゴリー: #{@category}"
   end
 end
 
 class BookInfoManager
-  def initialize
+  def initialize(filename)
+    @csv_fname = filename
     @book_infos = {}
   end
 
+  # 蔵書データをセットアップする
   def setup
     book1  = BookInfo.new(
       "作りながら学ぶRuby",
@@ -97,11 +104,22 @@ class BookInfoManager
     end
   end
 
+  # メモリ上のハッシュをCSVファイルに書き込む
+  def save_all_book_infos
+    File.open(@csv_fname, 'w:UTF-8') do |file|
+      @book_infos.each_value do |book|
+        file.print book.to_csv
+      end
+    end
+    puts "ファイルへ保存しました。"
+  end
+
   def run
     while true
       puts "1: 書籍データ登録"
       puts "2: 書籍データ表示"
       puts "3: 書籍データを検索する"
+      puts "4: 書籍データを保存する"
       puts "9: 終了"
       print "番号を選んでください(1,2,3,9):"
 
@@ -113,6 +131,8 @@ class BookInfoManager
         list_all_books
       when num == 3
         search_book
+      when num == 4
+        save_all_book_infos
       when num == 9
         break;
       else
@@ -122,6 +142,6 @@ class BookInfoManager
   end
 end
 
-book_info_manager = BookInfoManager.new
+book_info_manager = BookInfoManager.new("sample.txt")
 book_info_manager.setup
 book_info_manager.run

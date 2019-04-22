@@ -31,20 +31,12 @@ class BookInfoManager
 
   # 蔵書データをセットアップする
   def setup
-    book1  = BookInfo.new(
-      "作りながら学ぶRuby",
-      "久保秋真",
-      Date.new(2019, 4, 21),
-      "Ruby"
-    )
-    book2 = BookInfo.new(
-      "Webを支える技術",
-      "山本陽平",
-      Date.new(2019, 4, 8),
-      "ネットワーク"
-    )
-    @book_infos[:book1] = book1
-    @book_infos[:book2] = book2
+    File.open(@csv_fname, 'r:UTF-8') do |file|
+      file.each do |line|
+        key, title, author, study_day, category = line.chomp.split(',')
+        @book_infos[key.to_sym] = BookInfo.new(title, author, DateTime.parse(study_day), category)
+      end
+    end
   end
 
   def add_book_info

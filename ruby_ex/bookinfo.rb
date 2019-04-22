@@ -1,6 +1,6 @@
 require 'date'
 class BookInfo
-  def initialize(title, author, studay_day, category)
+  def initialize(title, author, study_day, category)
     @title = title
     @author = author
     @study_day = study_day

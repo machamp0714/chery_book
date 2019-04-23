@@ -28,7 +28,8 @@ end
 
 class BookInfoManager
   def initialize(dbname)
-    @db = PStore.new(dbname)
+    @db = dbname
+    @dbh = DBI.connect("DBI:SQLite3:#{@db}")
   end
 
   # 蔵書データをセットアップする
@@ -129,20 +130,22 @@ class BookInfoManager
   # end
 
   def db_initialize
-    dbh = DBI.connect('DBI:SQLite3:bookinfo.db')
+    puts "データベースを初期化します。"
+    print "初期化しますか？(Y/yなら削除を実行します): "
+    yesno = gets.chomp.upcase
+    if yesno =~ /^Y$/
+      @dbh.do("drop table if exists bookinfos")
 
-    dbh.do("drop table if exists bookinfos")
-
-    dbh.do("create table bookinfos (
-      id varchar(50) not null,
-      title varchar(100) not null,
-      author varchar(100) not null,
-      study_day datetime not null,
-      category varchar(100) not null,
-      primary key(id)
-    );")
-
-    puts "データベースを初期化しました"
+      @dbh.do("create table bookinfos (
+        id varchar(50) not null,
+        title varchar(100) not null,
+        author varchar(100) not null,
+        study_day datetime not null,
+        category varchar(100) not null,
+        primary key(id)
+      );")
+      puts "データベースを初期化しました"
+    end
   end
 
   def run
@@ -179,6 +182,6 @@ class BookInfoManager
   end
 end
 
-book_info_manager = BookInfoManager.new('sampleDB')
+book_info_manager = BookInfoManager.new('bookinfo.db')
 
 book_info_manager.run

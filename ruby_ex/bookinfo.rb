@@ -1,5 +1,7 @@
 require 'date'
 require 'PStore'
+require 'rubygems'
+require 'dbi'
 class BookInfo
   def initialize(title, author, study_day, category)
     @title = title
@@ -126,8 +128,26 @@ class BookInfoManager
   #   puts "ファイルへ保存しました。"
   # end
 
+  def db_initialize
+    dbh = DBI.connect('DBI:SQLite3:bookinfo.db')
+
+    dbh.do("drop table if exists bookinfos")
+
+    dbh.do("create table bookinfos (
+      id varchar(50) not null,
+      title varchar(100) not null,
+      author varchar(100) not null,
+      study_day datetime not null,
+      category varchar(100) not null,
+      primary key(id)
+    );")
+
+    puts "データベースを初期化しました"
+  end
+
   def run
     while true
+      puts "0: データベースを初期化する"
       puts "1: 書籍データ登録"
       puts "2: 書籍データ表示"
       puts "3: 書籍データを検索する"
@@ -138,6 +158,8 @@ class BookInfoManager
 
       num = gets.chomp.to_i
       case 
+      when num == 0
+        db_initialize
       when num == 1
         add_book_info
       when num == 2

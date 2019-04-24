@@ -55,3 +55,31 @@ SELECT shohin_bunrui, AVG(hanbai_tanka) FROM Shohin GROUP BY shohin_bunrui HAVIN
 WHERE句 = 行に対する条件指定
 HAVING句 = グループに対する条件指定
 */
+
+-- ORDER BY句
+-- ORDER BY句は常にSELECT文の最後に書く
+SELECT shohin_id, shohin_mei, hanbai_tanka, shiire_tanka FROM Shohin ORDER BY  hanbai_tanka;
+SELECT shohin_id, shohin_mei, hanbai_tanka, shiire_tanka
+FROM Shohin
+ORDER BY  hanbai_tanka DESC;
+
+-- 複数のソートキー
+SELECT shohin_id, shohin_mei, hanbai_tanka, shiire_tanka FROM Shohin ORDER BY hanbai_tanka, shohin_id;
+
+-- NULLの順番
+SELECT shohin_id, shohin_mei, hanbai_tanka, shiire_tanka
+FROM Shohin
+ORDER BY shiire_tanka;
+
+-- ORDER BY句に使える列
+SELECT shohin_bunrui, COUNT(*) FROM Shohin GROUP BY shohin_bunrui ORDER BY COUNT(*);
+
+-- 練習問題
+SELECT shohin_bunrui, SUM(hanbai_tanka) AS sum, SUM(shiire_tanka) AS sum
+FROM Shohin
+GROUP BY shohin_bunrui
+HAVING SUM(hanbai_tanka) > SUM(shiire_tanka) * 1.5;
+
+SELECT shohin_id, shohin_mei, shohin_bunrui, hanbai_tanka, shiire_tanka, torokubi
+FROM Shohin
+ORDER BY torokubi DESC;

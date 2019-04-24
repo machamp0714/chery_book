@@ -45,7 +45,7 @@ class BookInfoManager
   def add_book_info
     puts "書籍を登録します。情報を入力してください。"
     print "キー: "
-    key = gets.chomp.to_sym
+    key = gets.chomp
     print "タイトル: "
     title = gets.chomp
     print "著者名: "
@@ -58,10 +58,19 @@ class BookInfoManager
     study_date = gets.chomp.to_i
     print "カテゴリー: "
     category = gets.chomp
-    book_info = BookInfo.new(title, author, Date.new(study_year, study_month, study_date), category)
-    @db.transaction do
-      @db[key] = book_info
-    end
+    # book_info = BookInfo.new(title, author, Date.new(study_year, study_month, study_date), category)
+    # @db.transaction do
+    #   @db[key] = book_info
+    # end
+    study_day = Date.new(study_year, study_month, study_date)
+    @dbh.do("insert into bookinfos values (
+      \'#{key}\',
+      #{title},
+      #{author},
+      #{study_day},
+      #{category}
+    );")
+    puts "登録が完了しました。"
   end
 
   def list_all_books

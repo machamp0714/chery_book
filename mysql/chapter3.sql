@@ -26,3 +26,16 @@ SELECT MAX(torokubi) FROM Shohin;
 SELECT COUNT(DISTINCT shohin_bunrui) FROM Shohin;
 
 SELECT SUM(hanbai_tanka), SUM(DISTINCT hanbai_tanka) FROM Shohin;
+
+-- GROUP BY句
+SELECT shohin_bunrui, COUNT(*) FROM Shohin GROUP BY shohin_bunrui;
+
+/* 句の記述順位
+select from where group by
+*/
+
+-- 集約キーにNULLが含まれていた場合 => 結果に含まれる
+SELECT shiire_tanka, COUNT(*) FROM Shohin GROUP BY shiire_tanka;
+
+-- where句とgroup by句の併用
+SELECT shiire_tanka, COUNT(*) FROM Shohin WHERE shohin_bunrui = '衣服' GROUP BY shiire_tanka;

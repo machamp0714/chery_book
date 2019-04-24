@@ -39,3 +39,19 @@ SELECT shiire_tanka, COUNT(*) FROM Shohin GROUP BY shiire_tanka;
 
 -- where句とgroup by句の併用
 SELECT shiire_tanka, COUNT(*) FROM Shohin WHERE shohin_bunrui = '衣服' GROUP BY shiire_tanka;
+
+/*
+GROUP BY句を使っても結果の表示順序はソートされない
+SELECT句に集約キー以外の列名を書けない
+集約関数を書くことができる場所は、SELECT句とHAVING句のみ
+*/
+
+-- 集約した結果に条件を指定する
+SELECT shohin_bunrui, COUNT(*) FROM Shohin GROUP BY shohin_bunrui HAVING count(*) = 2;
+
+SELECT shohin_bunrui, AVG(hanbai_tanka) FROM Shohin GROUP BY shohin_bunrui HAVING AVG(hanbai_tanka) >= 2500;
+
+/*
+WHERE句 = 行に対する条件指定
+HAVING句 = グループに対する条件指定
+*/

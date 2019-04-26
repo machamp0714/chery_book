@@ -7,7 +7,7 @@ class RevealingReferences
 
   def diameters
     # wheels.collect { |wheel| wheel.rim + (wheel.tire * 2) }
-    wheels.collect { |wheel| diameter(wheel) }
+    wheels.collect { |wheel| diameter(wheel) } # collectはmapのaliasメソッド
   end
 
   def diameter(wheel)

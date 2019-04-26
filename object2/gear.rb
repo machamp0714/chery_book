@@ -1,11 +1,10 @@
 class Gear
-  attr_reader :chainring, :cog, :rim, :tire
+  attr_reader :chainring, :cog, :wheel
 
-  def initialize(chainring, cog, rim, tire) # インスタンス変数は常にアクセサメソッドで包み、直接参照しない様にする
+  def initialize(chainring, cog, wheel=nil) # インスタンス変数は常にアクセサメソッドで包み、直接参照しない様にする
     @chainring = chainring
     @cog = cog
-    @rim = rim
-    @tire = tire
+    @wheel = wheel
   end
 
   def ratio
@@ -17,12 +16,34 @@ class Gear
   # end
 
   def gear_inches
-    ratio * (rim + (tire * 2))
+    begin
+      ratio * wheel.diameter
+    rescue NoMethodError => e
+      puts e.class
+      puts 'wheel属性が必要です。'
+    end
   end
 end
 
-gear = Gear.new(52, 11, 26, 1.5)
-p gear.gear_inches
+class Wheel
+  attr_reader :rim, :tire
 
-# gear2 = Gear.new(52, 11) メソッドに必要な引数の数の変更は、そのメソッドを呼び出している箇所の全てを壊す
-# p gear2.ratio
+  def initialize(rim, tire)
+    @rim = rim
+    @tire = tire
+  end
+
+  def diameter
+    rim + (tire * 2)
+  end
+
+  def circumference
+    diameter * Math::PI
+  end
+end
+
+wheel = Wheel.new(26, 1.5)
+gear = Gear.new(52, 11, wheel)
+p gear.gear_inches
+gear2 = Gear.new(52, 11)
+p gear2.gear_inches

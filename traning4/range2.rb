@@ -1,4 +1,3 @@
-# if文で使う
 # def liquid?(temperture)
 #   0 <= temperture && temperture < 100
 # end

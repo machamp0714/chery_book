@@ -44,6 +44,17 @@ GROUP BY shohin_bunrui;
 -- UPDATE Shohin SET torokubi = NULL WHERE shohin_id = '0008';
 
 -- 複数列の更新
-UPDATE Shohin 
-SET hanbai_tanka = hanbai_tanka * 10, shiire_tanka = shiire_tanka / 0.8
-WHERE shohin_bunrui = '事務用品';
+-- UPDATE Shohin 
+-- SET hanbai_tanka = hanbai_tanka * 10, shiire_tanka = shiire_tanka / 0.8
+-- WHERE shohin_bunrui = '事務用品';
+
+-- トランザクション
+BEGIN TRANSACTION;
+  UPDATE Shohin
+  SET hanbai_tanka = hanbai_tanka - 1000
+  WHERE shohin_mei = '穴あけパンチ';
+
+  UPDATE Shohin
+  SET hanbai_tanka = hanbai_tanka + 1000
+  WHERE shohin_mei = 'Tシャツ';
+COMMIT;

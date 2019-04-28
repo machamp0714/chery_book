@@ -26,7 +26,24 @@
 -- SELECT shohin_id, shohin_mei, shohin_bunrui, hanbai_tanka, shiire_tanka, torokubi FROM Shohin;
 
 -- INSERT文の中でSELECTを使う
+/*
 INSERT INTO Shohinbunrui (shohin_bunrui, sum_hanbai_tanka, sum_shiire_tanka)
 SELECT shohin_bunrui, sum(hanbai_tanka), sum(shiire_tanka)
 FROM Shohin
 GROUP BY shohin_bunrui;
+*/
+
+-- DELETE文 GROUP BY HAVING ORDER BYは使えない WHERE句のみ使える
+--     DELETE FROM Shohin WHERE hanbai_tanka >= 4000;
+
+-- UPDATE文
+-- UPDATE Shohin SET torokubi = '2009-10-09';
+
+-- UPDATE Shohin SET hanbai_tanka= hanbai_tanka * 10 WHERE shohin_bunrui = 'キッチン用品';
+
+-- UPDATE Shohin SET torokubi = NULL WHERE shohin_id = '0008';
+
+-- 複数列の更新
+UPDATE Shohin 
+SET hanbai_tanka = hanbai_tanka * 10, shiire_tanka = shiire_tanka / 0.8
+WHERE shohin_bunrui = '事務用品';

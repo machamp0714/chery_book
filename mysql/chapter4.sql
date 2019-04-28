@@ -49,6 +49,7 @@ GROUP BY shohin_bunrui;
 -- WHERE shohin_bunrui = '事務用品';
 
 -- トランザクション
+/*
 BEGIN TRANSACTION;
   UPDATE Shohin
   SET hanbai_tanka = hanbai_tanka - 1000
@@ -57,4 +58,33 @@ BEGIN TRANSACTION;
   UPDATE Shohin
   SET hanbai_tanka = hanbai_tanka + 1000
   WHERE shohin_mei = 'Tシャツ';
+COMMIT;
+*/
+
+-- 練習問題
+-- BEGIN TRANSACTION;
+-- INSERT INTO ShohinCopy VALUES ( '0001', 'Tシャツ', '衣服', 1000, 500, '2008-09-20' );
+-- INSERT INTO ShohinCopy VALUES ( '0002', '穴あけパンチ', '事務用品', 500, 320, '2008-09-11' );
+-- INSERT INTO ShohinCopy VALUES ( '0003', 'カッターシャツ', '衣服', 4000, 2800, NULL );
+
+-- INSERT INTO ShohinCopy SELECT * FROM ShohinCopy;
+-- primary keyは重複が許されないのでエラーが生じる
+
+-- CREATE TABLE ShohinSaeki(
+--   shohin_id CHAR(4) NOT NULL,
+--   shohin_mei VARCHAR(100) NOT NULL,
+--   shohin_bunrui VARCHAR(32) NOT NULL,
+--   hanbai_tanka INTEGER,
+--   shiire_tanka INTEGER,
+--   saeki INTEGER,
+--   PRIMARY KEY(shohin_id)
+-- );
+
+-- INSERT INTO ShohinSaeki(shohin_id, shohin_mei, shohin_bunrui, hanbai_tanka, shiire_tanka, saeki)
+-- SELECT shohin_id, shohin_mei, shohin_bunrui, hanbai_tanka, shiire_tanka, hanbai_tanka - shiire_tanka
+-- FROM ShohinCopy;
+
+BEGIN TRANSACTION;
+UPDATE ShohinSaeki SET hanbai_tanka = 3000 WHERE shohin_mei = 'カッターシャツ';
+UPDATE ShohinSaeki SET saeki = hanbai_tanka - shiire_tanka WHERE shohin_mei = 'カッターシャツ';
 COMMIT;

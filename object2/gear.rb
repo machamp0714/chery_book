@@ -22,11 +22,15 @@ class Gear
 
   def gear_inches
     begin
-      ratio * wheel.diameter
+      ratio * diameter
     rescue NoMethodError => e
       puts e.class
       puts 'wheel属性が必要です。'
     end
+  end
+
+  def diameter
+    wheel.diameter
   end
 
   def wheel # GearがWheelに依存していることが公然となる。

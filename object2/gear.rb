@@ -1,10 +1,15 @@
 class Gear
   attr_reader :chainring, :cog, :wheel
 
-  def initialize(chainring, cog, wheel=nil) # インスタンス変数は常にアクセサメソッドで包み、直接参照しない様にする
-    @chainring = chainring
-    @cog = cog
-    @wheel = wheel
+  def initialize(args) # インスタンス変数は常にアクセサメソッドで包み、直接参照しない様にする
+    args = defaults.merge(args)
+    @chainring = args[:chainring]
+    @cog = args[:cog]
+    @wheel = args[:wheel]
+  end
+
+  def defaults
+    { chainring: 40, cog: 18 }
   end
 
   def ratio
@@ -22,6 +27,10 @@ class Gear
       puts e.class
       puts 'wheel属性が必要です。'
     end
+  end
+
+  def wheel # GearがWheelに依存していることが公然となる。
+    @wheel ||= Wheel.new(rim, tire)
   end
 end
 
@@ -42,8 +51,4 @@ class Wheel
   end
 end
 
-wheel = Wheel.new(26, 1.5)
-gear = Gear.new(52, 11, wheel)
-p gear.gear_inches
-gear2 = Gear.new(52, 11)
-p gear2.gear_inches
+p Gear.new({ chainring: 11, cog: 23, wheel: Wheel.new(26, 1.5) }).gear_inches

@@ -11,3 +11,6 @@ p add_lambda.class
 
 p add_proc.lambda?
 p add_lambda.lambda?
+
+p "Ruby is fun!".split(' ').map(&:reverse).join(' ')
+p "Ruby is fun!".chars

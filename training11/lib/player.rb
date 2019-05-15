@@ -1,7 +1,9 @@
 require './deck'
   
 class Player
-  attr_reader :hand
+  include Deck
+
+  attr_reader :hand, :score
 
   def initialize
     @hand = []
@@ -15,28 +17,25 @@ class Player
   end
 
   def present_a_card
-    "あなたの引いたカードは#{hand.last.suit}の#{hand.last.number}です。"
+    puts "あなたの引いたカードは#{hand.last.suit}の#{hand.last.number}です。"
   end
-
+  
   def calc_score
+    total = 0
     hand.each do |card|
       if card.number == 'A'
-        @score += 1
+        total += 1
       elsif card.number == 'J'
-        @score += 10
+        total += 10
       elsif card.number == 'Q'
-        @score += 10
+        total += 10
       elsif card.number == 'K'
-        @score += 10
+        total += 10
       else
-        @score += card.number
+        total += card.number
       end
     end
-    "あなたの現在の得点は#{@score}です。"
+    @score = total
+    puts "あなたの現在の得点は#{@score}です。"
   end
-
-  private
-    def remove_a_card(card)
-      Deck::DECK.delete(card)
-    end
 end

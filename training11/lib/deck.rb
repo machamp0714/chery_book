@@ -1,6 +1,6 @@
 require './card'
 
-class Deck
+module Deck
   DECK = [
     Card.new('heart', 'A'),
     Card.new('heart', 2),
@@ -55,4 +55,8 @@ class Deck
     Card.new('dia', 'Q'),
     Card.new('dia', 'K')
   ]
+
+  def remove_a_card(card)
+    DECK.delete(card)
+  end
 end

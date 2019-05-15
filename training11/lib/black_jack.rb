@@ -1,3 +1,4 @@
+require './user'
 require './player'
 require './deck'
 

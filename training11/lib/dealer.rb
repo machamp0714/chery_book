@@ -1,7 +1,6 @@
 require './user'
-require './deck'
-  
-class Player < User
+
+class Dealer < User
   def initialize
     super
   end

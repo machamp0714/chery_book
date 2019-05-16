@@ -17,7 +17,12 @@ class User
   end
 
   def present_a_card
-    puts "あなたの引いたカードは#{hand.last.suit}の#{hand.last.number}です。"
+    case self
+    when Player
+      puts "あなたの引いたカードは#{hand.last.suit}の#{hand.last.number}です。"
+    when Dealer
+      puts "ディーラーの引いたカードは#{hand.last.suit}の#{hand.last.number}です。"
+    end
   end
   
   def calc_score
@@ -36,6 +41,14 @@ class User
       end
     end
     @score = total
-    puts "あなたの現在の得点は#{@score}です。"
+  end
+
+  def present_score
+    case self
+    when Player
+      puts "あなたの現在の得点は#{score}です。"
+    when Dealer
+      puts "ディーラーの現在の得点は#{score}です。"
+    end
   end
 end

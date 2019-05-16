@@ -43,6 +43,7 @@ class BlackJack
     first_turn(dealer)
 
     player.calc_score
+    player.present_score
 
     while (player.score < 22)
       puts "カードを引きますか？引く場合はYを、引かない場合はNを入力してください"
@@ -53,6 +54,7 @@ class BlackJack
         player.draw_a_card
         player.present_a_card
         player.calc_score
+        player.present_score
       when 'N'
         puts "あなたのターンは終了です。\n次はディーラーのターンです。"
         break
@@ -68,8 +70,9 @@ class BlackJack
 
       while(dealer.score <= 17)
         dealer.draw_a_card
-        puts "ディーラーの引いたカードは#{dealer.hand.last.suit}の#{dealer.hand.last.number}です。"
+        dealer.present_a_card
         dealer.calc_score
+        dealer.present_score
       end
 
       puts "あなたの得点は#{player.score}です。"

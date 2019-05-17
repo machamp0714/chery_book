@@ -4,7 +4,7 @@ class User
   attr_reader :role, :hand, :score
 
   def initialize(role)
-    @hand = []
+    @hands = []
     @score = 0
     @role = role
   end
@@ -12,13 +12,13 @@ class User
   include Deck
 
   def draw_a_card
-    card = Deck::DECK.sample
+    card = Deck::DECK.last
     remove_a_card(card)
-    @hand << card
+    @hands << card
   end
 
   def present_a_card
-    puts "#{role}の引いたカードは#{hand.last.suit}の#{hand.last.number.to_s}です。"
+    puts "#{role}の引いたカードは#{hands.last.suit}の#{hands.last.number.to_s}です。"
   end
 
   def present_score
@@ -27,7 +27,7 @@ class User
 
   def calc_score
     total = 0
-    hand.each do |card|
+    hands.each do |card|
       if card.number == 'A'
         total += 1
       elsif card.number == 'J'

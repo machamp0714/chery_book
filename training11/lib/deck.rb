@@ -59,4 +59,8 @@ module Deck
   def remove_a_card(card)
     DECK.delete(card)
   end
+
+  def shuffle_deck
+    DECK.shuffle!
+  end
 end

@@ -4,21 +4,7 @@ require './dealer'
 require './deck'
 
 class BlackJack
-  def first_turn(user)
-    case user
-    when Player
-      2.times do
-        user.draw_a_card
-        user.present_a_card
-      end
-    when Dealer
-      user.draw_a_card
-      puts "ディーラーの引いたカードは#{user.hand[0].suit}の#{user.hand[0].number}です。"
-      user.draw_a_card
-      puts "ディーラーの２枚目のカードは分かりません。"
-    end
-  end
-
+  
   def judge(player, dealer)
     player_score = (player.score - 21).abs
     dealer_score = (dealer.score - 21).abs
@@ -33,14 +19,14 @@ class BlackJack
   end
 
   def play
-    player = Player.new
-    dealer = Dealer.new
+    player = Player.new('あなた')
+    dealer = Dealer.new('ディーラー')
 
     puts "☆★☆★☆★☆★☆★ ブラックジャックへようこそ！ ☆★☆★☆★☆★☆★"
     puts "ゲームを開始します。"
 
-    first_turn(player)
-    first_turn(dealer)
+    player.first_turn
+    dealer.first_turn
 
     player.calc_score
     player.present_score
@@ -51,10 +37,7 @@ class BlackJack
 
       case answer
       when 'Y'
-        player.draw_a_card
-        player.present_a_card
-        player.calc_score
-        player.present_score
+        player.turn
       when 'N'
         puts "あなたのターンは終了です。\n次はディーラーのターンです。"
         break
@@ -62,23 +45,23 @@ class BlackJack
     end
 
     if (player.score >= 22)
-      puts "あなたの負けです。"
+      puts "ディーラーの勝ちです！"
     else
-      puts "ディーラーの２枚目のカードは#{dealer.hand.last.suit}の#{dealer.hand.last.number}でした。"
+      puts "ディーラーの２枚目のカードは#{dealer.hand.last.suit}の#{dealer.hand.last.number.to_s}でした。"
 
       dealer.calc_score
 
       while(dealer.score <= 17)
-        dealer.draw_a_card
-        dealer.present_a_card
-        dealer.calc_score
-        dealer.present_score
+        dealer.turn
       end
 
-      puts "あなたの得点は#{player.score}です。"
-      puts "ディーラーの得点は#{dealer.score}です。"
-
-      judge(player, dealer)
+      if (dealer.score >= 22)
+        puts "#{player.role}の勝ちです！"
+      else
+        player.result
+        dealer.result
+        judge(player, dealer)
+      end
     end
   end
 end

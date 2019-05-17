@@ -1,14 +1,15 @@
 require './deck'
 
 class User
-  include Deck
+  attr_reader :role, :hand, :score
 
-  attr_reader :hand, :score
-
-  def initialize
+  def initialize(role)
     @hand = []
     @score = 0
+    @role = role
   end
+
+  include Deck
 
   def draw_a_card
     card = Deck::DECK.sample
@@ -17,14 +18,13 @@ class User
   end
 
   def present_a_card
-    case self
-    when Player
-      puts "あなたの引いたカードは#{hand.last.suit}の#{hand.last.number}です。"
-    when Dealer
-      puts "ディーラーの引いたカードは#{hand.last.suit}の#{hand.last.number}です。"
-    end
+    puts "#{role}の引いたカードは#{hand.last.suit}の#{hand.last.number.to_s}です。"
   end
-  
+
+  def present_score
+    puts "#{role}の現在の得点は#{score}です。"
+  end
+
   def calc_score
     total = 0
     hand.each do |card|
@@ -43,12 +43,14 @@ class User
     @score = total
   end
 
-  def present_score
-    case self
-    when Player
-      puts "あなたの現在の得点は#{score}です。"
-    when Dealer
-      puts "ディーラーの現在の得点は#{score}です。"
-    end
+  def turn
+    draw_a_card
+    present_a_card
+    calc_score
+    present_score
+  end
+
+  def result
+    puts "#{role}の得点は#{score}です。"
   end
 end

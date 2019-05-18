@@ -5,4 +5,8 @@ class Card
     @suit = suit
     @number = number
   end
+
+  def info(card)
+    "#{card.suit}の#{card.number}"
+  end
 end

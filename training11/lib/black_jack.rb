@@ -21,8 +21,8 @@ class BlackJack
   end
 
   def play
-    player = Player.new('あなた')
-    dealer = Dealer.new('ディーラー')
+    player = Player.new
+    dealer = Dealer.new
 
     puts "☆★☆★☆★☆★☆★ ブラックジャックへようこそ！ ☆★☆★☆★☆★☆★"
     puts "ゲームを開始します。"
@@ -60,7 +60,7 @@ class BlackJack
     if (player.score >= 22)
       puts "ディーラーの勝ちです！"
     else
-      puts "ディーラーの２枚目のカードは#{dealer.hands.last.suit}の#{dealer.hands.last.number.to_s}でした。"
+      puts "ディーラーの２枚目のカードは#{dealer.hands.last.suit}の#{dealer.hands.last.number}でした。"
 
       dealer.calc_score
 

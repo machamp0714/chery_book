@@ -2,8 +2,9 @@ require './user'
 require './deck'
   
 class Player < User
-  def initialize(role)
+  def initialize
     super
+    @role = 'あなた'
   end
 
   def first_turn

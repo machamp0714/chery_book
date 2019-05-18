@@ -1,8 +1,9 @@
 require './user'
 
 class Dealer < User
-  def initialize(role)
+  def initialize
     super
+    @role = 'ディーラー'
   end
 
   def first_turn

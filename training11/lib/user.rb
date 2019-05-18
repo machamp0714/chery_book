@@ -1,12 +1,11 @@
 require './deck'
 
 class User
-  attr_reader :role, :hand, :score
+  attr_reader :role, :hands, :score
 
-  def initialize(role)
+  def initialize
     @hands = []
     @score = 0
-    @role = role
   end
 
   include Deck
@@ -18,7 +17,7 @@ class User
   end
 
   def present_a_card
-    puts "#{role}の引いたカードは#{hands.last.suit}の#{hands.last.number.to_s}です。"
+    puts "#{role}の引いたカードは#{hands.last.suit}の#{hands.last.number}です。"
   end
 
   def present_score
@@ -30,11 +29,7 @@ class User
     hands.each do |card|
       if card.number == 'A'
         total += 1
-      elsif card.number == 'J'
-        total += 10
-      elsif card.number == 'Q'
-        total += 10
-      elsif card.number == 'K'
+      elsif card.number == 'J' || card.number == 'Q' || card.number == 'K'
         total += 10
       else
         total += card.number

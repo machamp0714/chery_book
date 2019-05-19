@@ -4,9 +4,6 @@ require './dealer'
 require './deck'
 
 class BlackJack
-
-  include Deck
-  
   def judge(player, dealer)
     player_score = (player.score - 21).abs
     dealer_score = (dealer.score - 21).abs
@@ -23,14 +20,15 @@ class BlackJack
   def play
     player = Player.new
     dealer = Dealer.new
+    deck = Deck.make_deck
 
     puts "☆★☆★☆★☆★☆★ ブラックジャックへようこそ！ ☆★☆★☆★☆★☆★"
     puts "ゲームを開始します。"
 
-    shuffle_deck
+    Deck.shuffle(deck)
 
-    player.first_turn
-    dealer.first_turn
+    player.first_turn(deck)
+    dealer.first_turn(deck)
 
     # プレイヤーのターン
 
@@ -48,7 +46,7 @@ class BlackJack
 
       case answer
       when 'Y'
-        player.turn
+        player.turn(deck)
       when 'N'
         puts "あなたのターンは終了です。\n次はディーラーのターンです。"
         break
@@ -65,7 +63,7 @@ class BlackJack
       dealer.calc_score
 
       while(dealer.score <= 17)
-        dealer.turn
+        dealer.turn(deck)
       end
 
       if (dealer.score >= 22)

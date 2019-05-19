@@ -1,66 +1,76 @@
 require './card'
 
-module Deck
-  DECK = [
-    Card.new('heart', 'A'),
-    Card.new('heart', 2),
-    Card.new('heart', 3),
-    Card.new('heart', 4),
-    Card.new('heart', 5),
-    Card.new('heart', 6),
-    Card.new('heart', 7),
-    Card.new('heart', 8),
-    Card.new('heart', 9),
-    Card.new('heart', 10),
-    Card.new('heart', 'J'),
-    Card.new('heart', 'Q'),
-    Card.new('heart', 'K'),
-    Card.new('clover', 'A'),
-    Card.new('clover', 2),
-    Card.new('clover', 3),
-    Card.new('clover', 4),
-    Card.new('clover', 5),
-    Card.new('clover', 6),
-    Card.new('clover', 7),
-    Card.new('clover', 8),
-    Card.new('clover', 9),
-    Card.new('clover', 10),
-    Card.new('clover', 'J'),
-    Card.new('clover', 'Q'),
-    Card.new('clover', 'K'),
-    Card.new('spade', 'A'),
-    Card.new('spade', 2),
-    Card.new('spade', 3),
-    Card.new('spade', 4),
-    Card.new('spade', 5),
-    Card.new('spade', 6),
-    Card.new('spade', 7),
-    Card.new('spade', 8),
-    Card.new('spade', 9),
-    Card.new('spade', 10),
-    Card.new('spade', 'J'),
-    Card.new('spade', 'Q'),
-    Card.new('spade', 'K'),
-    Card.new('dia', 'A'),
-    Card.new('dia', 2),
-    Card.new('dia', 3),
-    Card.new('dia', 4),
-    Card.new('dia', 5),
-    Card.new('dia', 6),
-    Card.new('dia', 7),
-    Card.new('dia', 8),
-    Card.new('dia', 9),
-    Card.new('dia', 10),
-    Card.new('dia', 'J'),
-    Card.new('dia', 'Q'),
-    Card.new('dia', 'K')
-  ]
+class Deck
+  class << self
+    def make_deck
+      [
+        Card.new('ハート', 'A'),
+        Card.new('ハート', 2),
+        Card.new('ハート', 3),
+        Card.new('ハート', 4),
+        Card.new('ハート', 5),
+        Card.new('ハート', 6),
+        Card.new('ハート', 7),
+        Card.new('ハート', 8),
+        Card.new('ハート', 9),
+        Card.new('ハート', 10),
+        Card.new('ハート', 'J'),
+        Card.new('ハート', 'Q'),
+        Card.new('ハート', 'K'),
+        Card.new('クローバー', 'A'),
+        Card.new('クローバー', 2),
+        Card.new('クローバー', 3),
+        Card.new('クローバー', 4),
+        Card.new('クローバー', 5),
+        Card.new('クローバー', 6),
+        Card.new('クローバー', 7),
+        Card.new('クローバー', 8),
+        Card.new('クローバー', 9),
+        Card.new('クローバー', 10),
+        Card.new('クローバー', 'J'),
+        Card.new('クローバー', 'Q'),
+        Card.new('クローバー', 'K'),
+        Card.new('スペード', 'A'),
+        Card.new('スペード', 2),
+        Card.new('スペード', 3),
+        Card.new('スペード', 4),
+        Card.new('スペード', 5),
+        Card.new('スペード', 6),
+        Card.new('スペード', 7),
+        Card.new('スペード', 8),
+        Card.new('スペード', 9),
+        Card.new('スペード', 10),
+        Card.new('スペード', 'J'),
+        Card.new('スペード', 'Q'),
+        Card.new('スペード', 'K'),
+        Card.new('ダイア', 'A'),
+        Card.new('ダイア', 2),
+        Card.new('ダイア', 3),
+        Card.new('ダイア', 4),
+        Card.new('ダイア', 5),
+        Card.new('ダイア', 6),
+        Card.new('ダイア', 7),
+        Card.new('ダイア', 8),
+        Card.new('ダイア', 9),
+        Card.new('ダイア', 10),
+        Card.new('ダイア', 'J'),
+        Card.new('ダイア', 'Q'),
+        Card.new('ダイア', 'K')
+      ]
+    end
 
-  def remove_a_card(card)
-    DECK.delete(card)
-  end
+    def remove_a_card(deck, card)
+      deck.delete(card)
+    end
 
-  def shuffle_deck
-    DECK.shuffle!
+    def shuffle(deck)
+      i = deck.length - 1
+      while(i > 0)
+        j = rand(deck.length - 1)
+        deck[j], deck[i] = deck[i], deck[j]
+        i -= 1
+      end
+      deck
+    end
   end
 end

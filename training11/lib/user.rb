@@ -8,11 +8,9 @@ class User
     @score = 0
   end
 
-  include Deck
-
-  def draw_a_card
-    card = Deck::DECK.last
-    remove_a_card(card)
+  def draw_a_card(deck)
+    card = deck.last
+    Deck.remove_a_card(deck, card)
     @hands << card
   end
 
@@ -38,8 +36,8 @@ class User
     @score = total
   end
 
-  def turn
-    draw_a_card
+  def turn(deck)
+    draw_a_card(deck)
     present_a_card
     calc_score
     present_score

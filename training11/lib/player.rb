@@ -7,9 +7,9 @@ class Player < User
     @role = 'あなた'
   end
 
-  def first_turn
+  def first_turn(deck)
     2.times do
-      draw_a_card
+      draw_a_card(deck)
       present_a_card
     end
   end

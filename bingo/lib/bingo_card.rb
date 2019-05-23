@@ -2,7 +2,8 @@ class BingoCard
   attr_reader :numbers
 
   def initialize
-    @numbers = { }
+    @numbers = {}
+    @right_numbers = {}
   end
 
   def generate_card
@@ -49,8 +50,14 @@ class BingoCard
     @numbers[[r, c]] = column.sample
     column.delete(@numbers[[r, c]])
   end
-end
 
-card = BingoCard.new
-card.generate_card
-puts card.view
+  def add(right_number)
+    key = @numbers.key(right_number)
+    @right_numbers[key] = right_number
+  end
+
+  def make_a_hole(right_number)
+    key = @numbers.key(right_number)
+    @numbers[key] = ' '
+  end
+end

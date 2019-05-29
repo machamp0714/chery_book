@@ -3,7 +3,11 @@ class BingoCard
 
   def initialize
     @numbers = {}
-    @right_numbers = {}
+    @column_b = [*1..15]
+    @column_i = [*16..30]
+    @column_n = [*31..45]
+    @column_g = [*46..60]
+    @column_o = [*61..75]
   end
 
   def generate_card
@@ -11,15 +15,15 @@ class BingoCard
       for c in 1..5 do
         case c
         when 1
-          set_number(r, c, [*1..15])
+          set_number(r, c, @column_b)
         when 2
-          set_number(r, c, [*16..30])
+          set_number(r, c, @column_i)
         when 3
-          set_number(r, c, [*31..45])
+          set_number(r, c, @column_n)
         when 4
-          set_number(r, c, [*46..60])
+          set_number(r, c, @column_g)
         when 5
-          set_number(r, c, [*61..75])
+          set_number(r, c, @column_o)
         end
         @numbers[[3, 3]] = ' '
       end
@@ -50,14 +54,8 @@ class BingoCard
     @numbers[[r, c]] = column.sample
     column.delete(@numbers[[r, c]])
   end
-
-  def add(right_number)
-    key = @numbers.key(right_number)
-    @right_numbers[key] = right_number
-  end
-
-  def make_a_hole(right_number)
-    key = @numbers.key(right_number)
-    @numbers[key] = ' '
-  end
 end
+
+card = BingoCard.new
+card.generate_card
+puts card.view

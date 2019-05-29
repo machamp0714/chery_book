@@ -50,10 +50,17 @@ class BingoCard
       return "#{record_0}\n#{record_1}\n#{record_2}\n#{record_3}\n#{record_4}\n#{record_5}"
   end
 
-  def set_number(r, c, column)
-    @numbers[[r, c]] = column.sample
-    column.delete(@numbers[[r, c]])
+  def right?(number)
+    @numbers.values.include?(number)
   end
+
+
+  private
+
+    def set_number(r, c, column)
+      @numbers[[r, c]] = column.sample
+      column.delete(@numbers[[r, c]])
+    end
 end
 
 card = BingoCard.new

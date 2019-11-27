@@ -1,47 +1,40 @@
-require './lib/bingo_card'
-require './lib/player'
+# frozen_string_literal: true
+
+#  B |  I |  N |  G |  O
+# 13 | 22 | 32 | 48 | 61
+#  3 | 23 | 43 | 53 | 63
+#  4 | 19 |    | 60 | 65
+# 12 | 16 | 44 | 50 | 75
+#  2 | 28 | 33 | 56 | 68
 
 class Bingo
-  def take_out_number
-    @@number = rand(75)
+  def to_s
+    body.each { |row| puts row.join(' | ') }
   end
 
-  def bingo?(players)
-    players.each do |player|
-      player.bingo
-    end
+  def body
+    bingo_numbers.unshift(header).map { |array| array.map { |c| c.rjust(2) } }
   end
 
-  def play
-    player1 = Player.new
-    players = [player1]
+  def header
+    %w[B I N G O]
+  end
 
-    puts "☆★☆★☆★☆★☆★ビンゴゲームを始めます！☆★☆★☆★☆★☆★"
+  def bingo_numbers
+    [column(:B), column(:I), column(:N).map.with_index { |c, index| index == 2 ? ' ' : c }, column(:G), column(:O)].transpose
+  end
 
-    puts "参加者のカードはこちら！"
-    player1.card.generate_card
-    puts player1.card.view
-
-    while bingo?(players)
-      take_out_number
-
-      players.each do |player|
-        if player.card.right?(@@number)
-          number = player.card.numbers.key(@@number)
-          player.right_numbers << number
-
-          player.make_a_hole(@@number)
-
-          player.check_bingo
-        end
-        puts "カードの状況はこちら"
-        puts player.card.view
-      end
-    end
-
-    puts "ビンゴゲーム終わり！！"
+  def column(col)
+    convertor = {
+      B: [*1..15],
+      I: [*16..30],
+      N: [*31..45],
+      G: [*46..60],
+      O: [*61..75]
+    }
+    convertor[col].shuffle.take(5).map(&:to_s)
   end
 end
 
-game = Bingo.new
-game.play
+bingo = Bingo.new
+bingo.to_s

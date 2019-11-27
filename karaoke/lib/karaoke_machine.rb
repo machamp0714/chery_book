@@ -1,30 +1,23 @@
 # frozen_string_literal: true
 
 class KaraokeMachine
-  attr_reader :melody
+  # 定数として定義する
+  SCALE = %w[C C# D D# E F F# G G# A A# B].freeze
 
   def initialize(melody)
     @melody = melody
   end
 
   def transpose(amount)
-    key = %w[C C# D D# E F F# G G# A A# B]
-    result = []
-    melody.each_char do |c|
-      result << if c == ' '
-                  ' '
-                elsif c == '|'
-                  '|'
-                elsif key.index(c) + amount > key.length - 1
-                  key[-(key.length - key.index(c) - amount)]
-                else
-                  key[key.index(c) + amount]
-                end
-    end
-    result.join
+    # 標準APIを活用して変換用ハッシュ を作成
+    converter = [SCALE, SCALE.rotate(amount)].transpose.to_h
+    # 正規表現を使って音符のみを抽出
+    @melody.gsub(/[A-G]#?/, converter)
   end
 end
 
-machine = KaraokeMachine.new('C D E F |E D C   |E F G A |G F E   |C   C   |C   C   |CCDDEEFF|E D C   ')
-
-p machine.transpose(2)
+# いいコードの境界線
+# 正規表現の活用
+# 標準APIの活用
+# 定数やインスタンス変数の使い分け
+# for/while/break/next等を避ける

@@ -8,6 +8,12 @@
 #  2 | 28 | 33 | 56 | 68
 
 class Bingo
+  class Array
+    def make_a_hole
+      map.with_index { |c, index| index == 2 ? ' ' : c }
+    end
+  end
+
   def to_s
     body.each { |row| puts row.join(' | ') }
   end
@@ -21,7 +27,7 @@ class Bingo
   end
 
   def bingo_numbers
-    [column(:B), column(:I), column(:N).map.with_index { |c, index| index == 2 ? ' ' : c }, column(:G), column(:O)].transpose
+    [column(:B), column(:I), column(:N).make_a_hole, column(:G), column(:O)].transpose
   end
 
   def column(col)

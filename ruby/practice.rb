@@ -52,4 +52,33 @@ string.end_with?(c)
 # 6. 禁止された文字列を含むかどうか
 
 s = "llll9llll"
-raise "No numbers please!" if s.match?(/\d/)
+# raise "No numbers please!" if s.match?(/\d/)
+
+# 7. 文字列の切り出し
+string = "MINASWAN"
+line = "A programer's best friend"
+gyo = "foo\nbar\nbaz"
+
+string.chars
+line.split # splitの区切りはデフォルトで空白文字なので引数は必要ない。
+gyo.lines(chomp: true)
+
+# 8. 文字列の切り出し2 単語の抽出
+
+s = %{"Come, Waston, come!" he cried. "The game is afoot. Not a word! Into your clothes and come!}
+
+s.split(/[,.!\s"]/).reject(&:empty?)
+
+s.scan(/[\w']+/)
+
+# 9. 文字列の切り出し3 区切り記号
+phone = "03-1234-5678"
+
+phone.scan(/[0-9]+/).first
+phone.split("-").first
+
+# 10. 文字列の破壊的変更
+strings = %w[foo Bar BAZ]
+# strings.map { |w| w.upcase!.reverse! } # 大文字に対して、upcase!を使うとnilを返す。
+
+p strings.each{|s| s.upcase!; s.reverse!}

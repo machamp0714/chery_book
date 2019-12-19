@@ -63,4 +63,54 @@ teeth.fetch("切歯", {}).fetch("小_", {}).fetch("側_", nil)
 teeth.dig("臼歯", "大_", 2)
 teeth.dig("切歯", "小_", "側_") 
 
+# 16. 配列やハッシュをふるいにかける
+n = 100
+max = Math.sqrt(n).floor
 
+(2..10).each_with_object((2..100).to_a) do |i, array|
+  array.reject! { |j| (j % i).zero? unless i == j }
+end
+
+# 17. 条件を満たす配列やハッシュの値の参
+fib = (20 - 2).times.inject(array) { |a, _| a + [a[-1] + a[-2]] }
+fib.find { |i| (i % 13).zero? }
+
+hash = { 1 => 1, 2 => 1 }
+fibh = (20 - 2).times.inject(hash) { |h, i| h.merge(i + 3 => h[i + 1] + h[i + 2]) }
+fibh.find { |k, v| (v % 11).zero? }
+
+# 18. 与えられた順序に沿った配列やハッシュの要素の選択と並び替え
+keys = %w[garnet amethyst aquamarine diamond emerald pearl ruby periodot sapphire opal topaz turqoise]
+
+array = %w[garnet amethyst bloodstone sapphire agate emerald onyx carneian chrysolite beryl topaz ruby]
+
+hash = {
+  "garnet" => "hoge",
+  "bloodstone" => "foo",
+  "sapphire" => "baz"
+}
+
+# keys.select { |w| array.include?(w) }
+keys & array # 配列同士の積集合
+
+hash.slice(*keys) # slice => 引数で指定されたキーとその値を含むハッシュを返す。 *Arrayで配列を展開する。
+
+# 19. 関数による配列の並び替え
+array = [1, 17, 14, 9, 3, 16, 15, 3, 18, 13]
+
+array.sort
+# array.sort { |a, b| -(a <=> b) } # 無駄がある
+# array.sort { |a, b| Math.cos(a) <=> Math.cos(b) }　# 無駄がある
+array.sort.reverse # 降順
+array.sort_by { |x| Math.cos(x) } # sortメソッドにブロックを渡すのではなく、sort_byを使う
+
+# 20. ハッシュの修正
+hash1 = {
+  "Perl" => "Warhol",
+  "Python" => "van Rossum",
+  "Ruby" => "Mazt"
+}
+hash2 = { "Perl" => "Wall", "Ruby" => "Matz" }
+
+hash2.each { |k, v| hash[k] = v }
+hash1.merge!(hash2)

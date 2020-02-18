@@ -10,11 +10,16 @@ class Comment
   end
 
   def reply_comments(comment_list)
-    comment_list.select { |comment| id == comment.id }
+    comment_list.select { |comment| id == comment.reply_id }
   end
 
-  def calc_likes_count(reply_comments, _comment_list)
-    return like if reply_comments.empty?
+  def calc_likes_count(comment_list, memo)
+    reply_comments = self.reply_comments(comment_list)
+
+    return memo[id] = like if reply_comments.empty?
+    return memo[id] unless memo[id].nil?
+
+    memo[id] = like + reply_comments.map { |comment| comment.calc_likes_count(comment_list, memo) }.reduce(:+)
   end
 end
 
@@ -26,6 +31,7 @@ def convert_type(id)
   end
 end
 
+memo = []
 comment_list = []
 comment_count = gets.chomp.to_i
 
@@ -36,8 +42,13 @@ comment_count.times do
 end
 
 comment_like_relation = comment_list.each_with_object({}) do |comment, hash|
-  reply_comments = comment.reply_comments(comment_list)
-  hash.merge!(comment.id => comment.calc_likes_count(reply_comments, comment_list))
+  hash.merge!(comment.id => comment.calc_likes_count(comment_list, memo))
 end
 
-p comment_like_relation
+maximum_like = comment_like_relation.values.max
+
+comment_ids = comment_like_relation.each_with_object([]) do |(key, value), result|
+  result << key if value == maximum_like
+end
+
+p comment_ids.min

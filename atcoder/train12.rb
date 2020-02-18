@@ -1,15 +1,24 @@
 # frozen_string_literal: true
 
 M, N = gets.chomp.split.map(&:to_i)
-plus_output = []
-minus_output = []
-numbers = (0..99).to_a
 
-def create_plus_question(a, b)
-  "#{a} + #{b} ="
+def create_random_number
+  numbers = (0..99).to_a
+  [numbers.sample, numbers.sample]
 end
 
-def create_minus_question(a, b)
+def create_plus_question
+  a, b = create_random_number
+  if a + b <= 99
+    "#{a} + #{b} ="
+  else
+    create_plus_question
+  end
+end
+
+def create_minus_question
+  a, b = create_random_number
+
   if a > b
     "#{a} - #{b} ="
   else
@@ -17,37 +26,26 @@ def create_minus_question(a, b)
   end
 end
 
-def dup(output, question)
-  output.count { |e| e == question }
+def dup?(question, questions)
+  questions.count { |e| e == question }.positive?
 end
 
-def maximum_validates(a, b)
-  a + b > 99
+def create_questions(m, n)
+  plus_questions = []
+  minus_questions = []
+
+  while plus_questions.length < m
+    question = create_plus_question
+    plus_questions << question unless dup?(question, plus_questions)
+  end
+
+  while minus_questions.length < n
+    question = create_minus_question
+    minus_questions << question unless dup?(question, minus_questions)
+  end
+
+  plus_questions + minus_questions
 end
 
-while plus_output.length < M
-  a = numbers.sample
-  b = numbers.sample
-
-  next if maximum_validates(a, b)
-
-  question = create_plus_question(a, b)
-
-  next if dup(plus_output, question).positive?
-
-  plus_output << question
-end
-
-while minus_output.length < N
-  a = numbers.sample
-  b = numbers.sample
-
-  question = create_minus_question(a, b)
-  next if dup(minus_output, question).positive?
-
-  minus_output << question
-end
-
-output = plus_output + minus_output
-
-p output
+questions = create_questions(M, N)
+questions.shuffle.each { |question| puts question }

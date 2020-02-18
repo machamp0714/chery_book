@@ -27,15 +27,15 @@ view = (1..item_num).each_with_object({}) do |i, hash|
   hash.merge!(i => table[i - 1])
 end
 
-scores = view.each_with_object({}) do |(key, value), hash|
-  s = value.map.with_index do |num, index|
+scores = view.each_with_object({}) do |(item_id, scores), hash|
+  s = scores.map.with_index do |score, index|
     col = table.transpose[index]
     rank = col.rank
 
-    item_num - rank[col.index(num)]
+    item_num - rank[col.index(score)]
   end
 
-  hash.merge!(key => s.reduce(:+))
+  hash.merge!(item_id => s.reduce(:+))
 end
 
-p scores
+Hash[scores.sort_by { |_, v| -v }].keys.each { |id| puts id }
